@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# https://docs.python.org/3/howto/curses.html
+
 import curses, random, time
 
 screen = None
@@ -11,6 +13,7 @@ z = 0
 l = 0
 high = 10
 
+
 def setup():
     global screen
     screen = curses.initscr()
@@ -19,6 +22,7 @@ def setup():
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_YELLOW)
+    curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
     curses.noecho()
     curses.cbreak()
     curses.curs_set(0)
@@ -126,7 +130,7 @@ def main(scr):
 
             # Crash?
             a = scr.instr(y + 1, x, 1)
-            if a == "X":
+            if a == "^" or a == "/" or a == "\":
                 crash()
                 break
 
@@ -153,12 +157,12 @@ def main(scr):
                 # If the game is not paused, display the entities
                 # Display the skier
                 if d == 1:
-                    scr.addstr(y - 1, x - 2, "\\ \\", curses.color_pair(2))
-                    scr.addstr(y, x, "\\o\\", curses.color_pair(2))
+                    scr.addstr(y - 1, x - 1, "\ \", curses.color_pair(5))
+                    scr.addstr(y, x - 1, "\o\", curses.color_pair(2))
                     #scr.addstr(y + 1, x + 1, "*", curses.color_pair(2))
                 else:
-                    scr.addstr(y - 1, x - 2, " / / ", curses.color_pair(2))
-                    scr.addstr(y, x - 2, "/o/", curses.color_pair(2))
+                    scr.addstr(y - 1, x - 1, "/ /", curses.color_pair(5))
+                    scr.addstr(y, x - 1, "/o/", curses.color_pair(2))
                     #scr.addstr(y + 1, x - 1, "*", curses.color_pair(2))
 
                 # Every 1000 metres show the level-up banner
@@ -178,9 +182,9 @@ def main(scr):
                             t = random.randint(0, 100)
                             if t > (80 - (c / 10)):
                                 t = random.randint(0, width - 2)
-                                scr.addstr(height - 3, t + 1, "X", curses.color_pair(1))
-                                scr.addstr(height - 2, t, "XXX", curses.color_pair(1))
-                                scr.addstr(height - 1, t + 1, "X", curses.color_pair(1))
+                                scr.addstr(height - 3, t + 1, "^", curses.color_pair(1))
+                                scr.addstr(height - 2, t, "/#\", curses.color_pair(1))
+                                scr.addstr(height - 1, t + 1, "#", curses.color_pair(2))
                         z = 0
                             
                 scr.refresh()
